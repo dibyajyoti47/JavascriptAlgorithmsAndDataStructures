@@ -39,6 +39,37 @@ class BinarySearchTree {
     } 
   }
 
+  remove(value) { 
+    this.root =  this.removeNode(this.root, value);
+  }
+
+  removeNode (node, val) {
+    if (node === null) return node; /* Base Case: If the tree is empty */
+    if (val < node.value) {
+      node.left = this.removeNode(node.left, val);
+    } else if (val > node.value) {
+      node.right = this.removeNode(node.right, val);
+    } else { //if key is same as root's key, then This is the node to be deleted 
+      //node with one child or no child 
+      if (node.left === null) return node.right;
+      if (node.right === null) return node.left;
+
+      // node with two children: Get the inorder successor (smallest in the right subtree)
+      node.value = this.findMin(node.right);
+      node.right = this.removeNode(node.right, node.value);
+    }
+    return node;
+  }
+
+  findMin(rootNode = this.root) {
+    let minValue = rootNode.value;
+    while ( rootNode !== null ) {
+      minValue = rootNode.value;
+      rootNode = rootNode.left;
+    }
+    return minValue;
+  }
+
   find (value) {
     if(!this.root) return undefined;
     let currentNode = this.root;
@@ -114,5 +145,7 @@ class BinarySearchTree {
   bst.insert(17)
   bst.insert(14)
   bst.insert(16)
-  console.log (bst.dfsInOrder());
+  console.log(bst.dfsInOrder());
+  bst.remove(15);
+  console.log(bst.dfsInOrder());
 })()

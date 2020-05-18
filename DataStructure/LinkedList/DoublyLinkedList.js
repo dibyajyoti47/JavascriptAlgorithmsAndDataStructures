@@ -129,6 +129,23 @@ class DoublyLinkedList {
 
   }
 
+  reverse () {
+    let tempHead = this.head;
+    let tempTail = this.tail;
+
+    let temp = null;
+    let current = this.head;
+    while (current) {
+      temp = current.previous;
+      current.previous = current.next;
+      current.next = temp;
+      current = current.previous;
+    } 
+
+    this.head = tempTail;
+    this.tail = tempHead;
+  }
+
   print() {
     let arr = [];
     let node = this.head;
@@ -145,5 +162,7 @@ class DoublyLinkedList {
   list.push("val1");
   list.push("val2");
   list.push("val3");
-  console.log(list);
+  list.print();
+  list.reverse();
+  list.print();
 })();
